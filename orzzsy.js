@@ -172,21 +172,31 @@ function orzzsyLast2() {
 		</button>																										\
 		";
 }
+var swapButtonsOldp=0,swapButtonsLineCnt=1,swapButtonsTime=0;
 var swapButtons=function(){
-	if(!swapButtons.state){
-		$("#button1").html("我还是不同意");
-		$("#button1").attr("onclick","swapButtons();");
-		$("#button2").html("同意并签字");
-		$("#button2").attr("onclick","orzzsyLast2();");
-	}else{
-		$("#button2").html("我还是不同意");
-		$("#button2").attr("onclick","swapButtons();");
-		$("#button1").html("同意并签字");
-		$("#button1").attr("onclick","orzzsyLast2();");
-	}
-	swapButtons.state^=1;
+	var buttons=$("button");
+	$(buttons[swapButtonsOldp]).html("同意并签字");
+	$(buttons[swapButtonsOldp]).css("color","black");
+	$(buttons[swapButtonsOldp]).hover(swapButtons,function(){});
+	$(buttons[swapButtonsOldp]).off('mouseenter').unbind('mouseleave');
+	$(buttons[swapButtonsOldp]).attr("onclick","orzzsyLast2()")
+	var p=swapButtonsOldp;
+	while(swapButtonsOldp==p)p=Math.floor(Math.random()*buttons.length);
+	$(buttons[p]).html("我还是不同意");
+	$(buttons[p]).css("color","red");
+	$(buttons[p]).hover(swapButtons,function(){});
+	$(buttons[p]).attr("onclick","orzzsyLast3(1)");
+	swapButtonsOldp=p;
+	++swapButtonsTime;
+	if(swapButtonsTime%5==0)
+		if(swapButtonsLineCnt+1<=10){
+			++swapButtonsLineCnt;
+			var newLine=$($(".npyButtons")[0]).clone(true);
+			newLine.children().html("同意并签字");
+			newLine.children().css("color","black");
+			newLine.appendTo($("#npyButtonLines"));
+		}else orzzsyLast3(0);
 };
-swapButtons.state=0;
 function orzzsyLast2_() {
     document.getElementById("mainArea").innerHTML="\
 		<h1 style=\"color:white; background: rgba(0,0,0,0.7)\">\
@@ -195,13 +205,46 @@ function orzzsyLast2_() {
 			* 『既然你不想做我男朋友...』<br>\
 			* 『我只好秒了你了...』<br>\
 		</h1>\
-		<br>																											\
-		<button id=\"button1\" style=\"font-size: 24px; color:#000000\" onclick=\"orzzsyLast2()\">										\
-			同意并签字  																								\
-		</button>																										\
 		<br>\
-		<button id=\"button2\" style=\"font-size: 24px; color:#000000\" onclick=\"swapButtons()\">										\
-			我还是不同意  																								\
-		</button>\
+		<div id=\"npyButtonLines\">\
+		<div class=\"npyButtons\" style=\"display:block\">\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<button  style=\"width:180px;font-size: 24px; color:#000000\"/>\
+		<br>\
+		</div>\
+		</div>\
+		";
+		var buttons=$("button"),p=Math.floor(Math.random()*buttons.length);
+		swapButtonsOldp=p;
+		buttons.html("同意并签字");buttons.attr("onclick","orzzsyLast2()");
+		$(buttons[p]).html("我还是不同意");
+		$(buttons[p]).css("color","red");
+		$(buttons[p]).hover(swapButtons,function(){});
+		$(buttons[p]).attr("onclick","orzzsyLast3(1)");
+}
+function orzzsyLast3() {
+    document.getElementById("mainArea").innerHTML="\
+		<h1 style=\"color:white; background: rgba(0,0,0,0.7)\">\
+			<img src=\"zsy_shenweizhiguang.jpg\"><br>\
+			* zsy 发动了技能『神威之光』！ <br>\
+			* 『你竟然真的...不想做我男朋友...』<br>\
+			 <br>\
+			* 你被 zsy 秒了<br>\
+		</h1>\
+		<img src=\"zsywalk.gif\">								        												\
+		<br>																											\
+		<span style=\"font-size: 12px; color:#666666\">																	\
+            即使是 yyb 也改变不了被 zsy 秒掉的命<br>																	\
+            欢迎在 https://github.com/SYCstudio/orzzsy 留言评论                                                         \
+		</span>																											\
+		<br>\
+		<button style=\"font-size: 24px; color:#000000\" onclick=\"javascript:location.reload();\">						\
+			继续 orz zsy！																								\
+		</button>																										\
 		";
 }
